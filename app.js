@@ -23,26 +23,36 @@ const cities = [
   { cityName: 'Washington', state: 'D.C.', population: 712816, party: 'Democrat' }
 ];
 
-// GROUP ARRAY BY STATES
-const cityGroups =
+// ex 1 - GROUP ARRAY BY STATES
+const cityGroups = _.groupBy(cities, 'state')
 console.log(cityGroups)
 
-// SORT ARRAY ALPHABETICALLY BY CITY NAME
-const sortedCities =
+// ex 2 - SORT ARRAY ALPHABETICALLY BY CITY NAME
+const sortedCities = _.sortBy(cities, 'cityName')
 console.log(sortedCities)
 
-// SHOW ONLY CITIES OF CALIFORNIA
-const californiaCities =
+// ex 3 - SHOW ONLY CITIES OF CALIFORNIA
+const californiaCities = _.chain(cities)
+.filter({state: 'California'})
+.map(cities => cities.cityName)
+.value()
 console.log(californiaCities)
 
-// SHOW ONLY CITIES OF TEXAS WITH A POPULATION OF LESS THAN 1 MILLION
-const texasCities =
+// ex 4 - SHOW ONLY CITIES OF TEXAS WITH A POPULATION OF LESS THAN 1 MILLION
+const texasCities = _.filter(cities, city => city.state === 'Texas' && city.population < 1000000);
 console.log(texasCities)
 
-// ADD ALL THE POPULATION OF CALIFORNIA CITIES
-const californiaPopulation = 
-console.log(californiaCities)
+// ex 5 - ADD ALL THE POPULATION OF CALIFORNIA CITIES
+const californiaPopulation = _.chain(cities)
+.filter({state: 'California'})
+.sumBy('population')
 
-// GROUP BY PARTY AND SHOW ONLY CITIES WITH A POPULATION ABOVE 1 MILLION. SORT CITY NAMES ALPHABETICALLY
-const newData =
+.value()
+console.log(californiaPopulation)
+
+// ex 6 - GROUP BY PARTY AND SHOW ONLY CITIES WITH A POPULATION ABOVE 1 MILLION. SORT CITY NAMES ALPHABETICALLY
+const newData = _.mapValues(
+  _.groupBy(_.filter(cities, city => city.population > 1000000), 'party'),
+  group => _.sortBy(group, 'cityName')
+);
 console.log(newData)
